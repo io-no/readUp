@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
@@ -15,28 +14,14 @@ import androidx.fragment.app.Fragment;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private TextView TextMessage;
     private TextInputLayout testo;
     private String str;
-    private String federica;
-    private TextView select;
-
-
-    private boolean loadFragments (Fragment fragment){
-        if (fragment != null){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-
-            return true;
-        }
-        return false;
-    }
+    private int checked;
+    private CharSequence element[] = new CharSequence[]{"Link Web", "Simple Text"};
 
 
     @Override
@@ -45,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         TextMessage = findViewById(R.id.message);
+        checked=-1;
         navView.setOnNavigationItemSelectedListener(this);
         loadFragments(new HomeFragment());
     }
@@ -69,16 +55,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return loadFragments(fragment);
     }
 
-    private CharSequence element[] = new CharSequence[]{"Link Web", "Simple Text"};
+
+    private boolean loadFragments (Fragment fragment){
+        if (fragment != null){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+
+            return true;
+        }
+        return false;
+    }
+
 
     public void Select(View v) {
         androidx.appcompat.app.AlertDialog.Builder buildino = new AlertDialog.Builder(MainActivity.this);
         buildino.setTitle("Choose the NFC data type:");
-        buildino.setSingleChoiceItems(element, -1, new DialogInterface.OnClickListener() {
+        buildino.setSingleChoiceItems(element, checked, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 TextView result = findViewById(R.id.selected);
                 result.setText(element[i]);
+                checked=i;
                 dialogInterface.dismiss();
             }
         });
@@ -88,12 +87,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public void writenow (View w){
         testo = findViewById(R.id.text);
-        select = findViewById(R.id.selected);
         Intent i = new Intent(w.getContext(), Write_Activity.class);
             str=testo.getEditText().toString();
             i.putExtra("word",str);
-            federica=select.getText().toString();
-            i.putExtra("wordina", federica);
+            i.putExtra("wordina", checked);
         startActivityForResult(i,1);
         if(Write_Activity.RESULT_OK==1){
             Snackbar.make(w,"Tag Written",Snackbar.LENGTH_SHORT).show();

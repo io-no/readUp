@@ -17,7 +17,7 @@ public class Write_Activity extends AppCompatActivity {
     private Tag tag;
     private NdefMessage messaggio;
     private String str;
-    private String federica;
+    private int checked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class Write_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_write_);
         nfcmng = new NFCManager(this);
         str=getIntent().getExtras().getString("word");
-        federica=getIntent().getExtras().getString("wordina");
+        checked=getIntent().getExtras().getInt("wordina");
     }
 
     @Override
@@ -74,19 +74,18 @@ public class Write_Activity extends AppCompatActivity {
 
     public void onWrite() {
         if(str!=null){
-            switch (federica) {
-                case "Link Web":
-                    Toast.makeText(getApplicationContext(),federica,Toast.LENGTH_SHORT).show();
+            switch (checked) {
+                case 1:
+                    Toast.makeText(getApplicationContext(),"1",Toast.LENGTH_SHORT).show();
                     messaggio = nfcmng.createTextMessage(str);
 
                     break;
-                case "Simple Text":
+                case 0:
                     messaggio = nfcmng.createUriMessage(str, "https://");
-                    Toast.makeText(getApplicationContext(),federica,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"0",Toast.LENGTH_SHORT).show();
                     break;
             }}
-        else Toast.makeText(getApplicationContext(),"ho",Toast.LENGTH_SHORT).show();
-
+        else Toast.makeText(getApplicationContext(),"ho",Toast.LENGTH_SHORT).show(); //Da eliminare Test
     }
 
 
