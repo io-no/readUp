@@ -27,7 +27,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="visible"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:elevation="15dp"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.G"
+        />
 
 
     <Button
@@ -50,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/selected"
         android:layout_above="@id/button3"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="22dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="0dp"

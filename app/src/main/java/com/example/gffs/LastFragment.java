@@ -9,6 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+
+/*
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * Fragment utilizzato, per il momento, solo per scopi di sviluppo
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+
 public class LastFragment extends Fragment {
     @Nullable
     @Override
