@@ -16,6 +16,4 @@ public class WriteFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.write_fragment, null);
     }
-
-
 }

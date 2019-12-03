@@ -1,6 +1,5 @@
 package com.example.gffs;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import static com.example.gffs.ReadUtility.foregroundDispatch;
+import static com.example.gffs.ReadUtility.stopForegroundDispatch;
 
 
 public class HomeFragment extends Fragment {
@@ -32,8 +33,8 @@ public class HomeFragment extends Fragment {
     /*
      * Ad ogni ripresa dell' esecuzione del fragment, si verifica
      * la presenza e l'attivazione dell'NFC, viene inizializzato
-     * l'intent filter e abilitato il dispatch (dettagli nel
-     * commento relativo)
+     * l'intent filter e abilitato il dispatch (dettagli nella
+     * classe relativa)
     */
 
     @Override
@@ -65,8 +66,8 @@ public class HomeFragment extends Fragment {
 
     /*
      * Ad ogni interruzione dell' esecuzione del fragment,
-     * viene disabilitato il dispatch (dettagli nel commento
-     * relativo).
+     * viene disabilitato il dispatch (dettagli nella classe
+     * relativa).
      */
 
     @Override
@@ -74,49 +75,9 @@ public class HomeFragment extends Fragment {
         super.onPause();
         nfcAdpt = NfcAdapter.getDefaultAdapter(this.getActivity());
         nfcManager.disableDispatch();
-        stopForegroundDispatch(this.getActivity(), nfcAdpt);
+        stopForegroundDispatch(this.getActivity(),nfcAdpt);
     }
 
-
-    /*
-     * Implemento e gestisco l'abilitazione del dispatch.
-     * Specifico gli Itent che voglio siano gestiti in foreground.
-     * Nel caso specifico, saranno previste due tipologie di Intent
-     * entrambe associate ad  un'azione di tipo NDEF_DISCOVERED,
-     * appartententi alla categoria CATEGORY_DEFAULT e che gestiscono
-     * il tipo "text/plain" oppure lo schema "https". Coincidono
-     * esattamente con le specifiche indicate nel Manifest.
-     */
-
-     public static void foregroundDispatch(Activity activity, NfcAdapter adapter) {
-        final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
-        IntentFilter[] filtrello = new IntentFilter[2];
-        String[][] techList = new String[][]{};
-        filtrello[0] = new IntentFilter();
-        filtrello[1] = new IntentFilter();
-        filtrello[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        filtrello[0].addCategory(Intent.CATEGORY_DEFAULT);
-        filtrello[1].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        filtrello[1].addCategory(Intent.CATEGORY_DEFAULT);
-        try {
-            filtrello[0].addDataType("text/plain");
-            filtrello[1].addDataScheme("https");
-        } catch (IntentFilter.MalformedMimeTypeException e) {
-            throw new RuntimeException("Wrong data type");
-        }
-        adapter.enableForegroundDispatch(activity, pendingIntent, filtrello, techList);
-    }
-
-
-    /*
-     * Implemento la disabilitazione del dispatch in foreground
-     */
-
-    public static void stopForegroundDispatch(Activity activity, NfcAdapter adapter) {
-        adapter.disableForegroundDispatch(activity);
-    }
 
     }
 

@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:androidx.com.androidx.support="http://schemas.android.com/tools">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="79dp"
-        android:layout_marginTop="134dp"
-        android:text="Switch" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/readicon"
+        android:layout_marginTop="-60dp"
+        android:layout_marginLeft="-40dp"
+        android:layout_marginRight="-40dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/welcomeMsg"
+        >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/welcomeMsg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Approach an NFC tag"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold">
+    </TextView>
+
+
+
+
 </RelativeLayout>

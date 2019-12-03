@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private TextView TextMessage;
@@ -21,21 +23,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private int checked;
     private CharSequence element[] = new CharSequence[]{"Link Web", "Simple Text"};
     private Bundle bundle;
+    private Button writeNow;
+    private BottomNavigationView navView;
 
 
 
     /*
-     *  Ad on creazione vengono inizialzzate ed associate una serie
+     *  Ad ogni creazione vengono inizializzate ed associate una serie
      *  di variabili alle rispettive componenti grafiche e funzionali.
      *  Di default viene avviato il fragment principale.
-     *
+     * todo icone
      */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         TextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(this);
         loadFragments(new HomeFragment());
@@ -79,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();
-
             return true;
         }
         return false;
@@ -90,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      * Metodo on click per la clickable TextView di selezione
      * del data type. Sono offerte due scelte: link web o
      * semplice testo. La posssiblità di scelta avviene per
-     * mezzo di un AlertDialog.
+     * mezzo di un AlertDialog. Quando viene effettuata la
+     * scelta il bottone che avvia la scrittura effettiva
+     * del tag viene abilitato.
      */
 
     public void Select(View v) {
@@ -101,7 +106,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick(DialogInterface dialogInterface, int i) {
                 TextView result = findViewById(R.id.selected);
                 result.setText(element[i]);
-                checked=i;
+                checked = i;
+                writeNow = findViewById(R.id.writeNow);
+                writeNow.setEnabled(true);
                 dialogInterface.dismiss();
             }
         });
@@ -114,14 +121,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      * Implemento il metodo onClick relativo al pulsante
      * di scrittura nel fragment Write. Viene avviata
      * l'activity di scrittura passando il testo scritto
-     * dall'utente e il data l'info sul data type selezionato.
-     * Todo
-     * ++++++++++++++++++++++++++++++++++++++++++++++++++++
-     * if(Write_Activity.RESULT_OK==1){
-            Snackbar.make(w,"Tag Written",Snackbar.LENGTH_SHORT).show();
-        }
-     * ++++++++++++++++++++++++++++++++++++++++++++++++++++
-     * Todo disabilitazione pulsante quando non ho info sul data type oppure sul dato stesso
+     * dall'utente e l'info sul data type selezionato.
      */
 
     public void writenow (View w){
@@ -135,11 +135,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
     /*
+     * Se la scrittura è avvenuta con successo, mostro una
+     * notifica attraverso una snackbar.
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == 1 && resultCode == Write_Activity.RESULT_OK) {
+            Snackbar.make(findViewById(R.id.fragment_container) , "Written!",Snackbar.LENGTH_SHORT)
+                    .setAnchorView(navView).show();
+            }
+        }
+
+    /*
      * Gestisco l'arrivo di un nuovo intent richiamando
      * la classe che gestisce la lettura del tag. In base
      * all'informazione ottenuta da quella classe sul tipo
      * del tag, decido se avviare l'activity di visualizzazione
-     * testi opppure la WebView.
+     * testi oppure la WebView.
      */
 
     @Override
@@ -155,7 +169,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Intent i = new Intent(this, ReadText_Activity.class);
                 i.putExtra("tagTextRead", bundle.getString("Text"));
                 startActivity(i);
-
+            } else {
+                Toast.makeText(getApplicationContext(),bundle.getString("err"),Toast.LENGTH_SHORT).show();
             }
         }
     }

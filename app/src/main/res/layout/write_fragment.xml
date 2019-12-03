@@ -34,13 +34,14 @@
 
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/writeNow"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="26dp"
         android:background="#318FB5"
+        android:enabled="false"
         android:fontFamily="bold"
         android:onClick="writenow"
         android:text="Write Now" />
@@ -52,19 +53,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/selected"
-        android:layout_above="@id/button3"
+        android:layout_above="@id/writeNow"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="22dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="0dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:textAlignment="center">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
             android:hint="Put your text here"
-            android:textAlignment="center"
-            />
+            android:textAlignment="center" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

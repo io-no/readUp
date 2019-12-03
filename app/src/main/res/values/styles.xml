@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">#FAFAFA</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="windowActionBar">false</item>
@@ -13,12 +13,9 @@
     <style name="Theme.MaterialComponents.Light.NoActionBar.False">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
-
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
     </style>
-
-
-
-
     <style name="Theme.MaterialComponents.Light.NoActionBar.G">
         <item name="colorControlHighlight">#FFFFFF</item>
     </style>
@@ -28,9 +25,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.MaterialComponents.Light.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+<style name="Theme.AppCompat.Light.Dialog.Alert">
+    <item name="android:textColorPrimary">@android:color/tertiary_text_light</item>
+</style>
 
-    <style name="Theme.MaterialComponents.Light.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

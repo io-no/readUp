@@ -10,9 +10,18 @@
         android:id="@+id/showHere"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TextView"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:text="No Text :("
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:textSize="24sp"
+        android:textStyle="italic"
         />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

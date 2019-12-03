@@ -1,6 +1,8 @@
 package com.example.gffs;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -34,16 +36,16 @@ public class Write_Activity extends AppCompatActivity {
     /*
      * Ad ogni ripresa dell'esecuzione, verifico la presenza e
      * l'abilitazione dell'Nfc e inizializzo l'intent filter
-     * specificando.
+     * specificando che non dovrà essere rilanciata se già
+     * in esecuzione attraverso il flag "FLAG_ACTIVITY_SINGLE_TOP".
      */
+
     @Override
     protected void onResume() {
         super.onResume();
         try {
             nfcmng.verifyNFC();
             Intent nfcIntent = new Intent(this, getClass());
-            //non deve essere lanciata se già in esecuzione
-            //todo migliorare spiegazione
             nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pendingIntent =
                     PendingIntent.getActivity(this, 0, nfcIntent, 0);
@@ -56,7 +58,6 @@ public class Write_Activity extends AppCompatActivity {
             nfcAdpt.enableForegroundDispatch(this, pendingIntent,
                     intentFiltersArray, techList);
             onWrite();
-
         } catch (NFCNotSupported nfcnsup) {
             Toast.makeText(getApplicationContext(), "NFC Not Supported", Toast.LENGTH_SHORT).show();
             finish();
@@ -81,7 +82,6 @@ public class Write_Activity extends AppCompatActivity {
     /*
      * Gestisco l'arrivo di un nuovo intent richiamando il metodo
      * per la scrittura del tag della classe WriteUtilities.
-     * todo result
      */
 
     @Override
@@ -89,33 +89,36 @@ public class Write_Activity extends AppCompatActivity {
         super.onNewIntent(intent);
         tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             writeUt.writeTag(tag, messaggio);
-            setResult(1);
+            setResult(Activity.RESULT_OK);
             finish();
         }
 
 
-        /*
-         * Gestico la creazione messaggio che possa poi essere
-         * effettivamente scritto all'interno di un tag Nfc.
-         * In questo caso, il messaggio può essere un semplice
-         * testo oppure un Uri. In fase di progetto è stato previsto
-         * l'utlizzo di soli link "https" (sia per la scrittura che
-         * per la lettura dei tag).
-         */
+    /*
+     * Gestico la creazione del messaggio che possa poi essere
+     * effettivamente scritto all'interno di un tag Nfc.
+     * In questo caso, il messaggio può essere un semplice
+     * testo oppure un Uri. In fase di progetto è stato previsto
+     * l'utlizzo di soli link "https" (sia per la scrittura che
+     * per la lettura dei tag).
+     */
 
     public void onWrite() {
-        if(data!=null){
+        if (data.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "No Text Inserted", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
             switch (checked) {
                 case 1:
                     messaggio = writeUt.createTextMessage(data);
                     break;
                 case 0:
                     messaggio = writeUt.createUriMessage(data, "https://");
-                    Toast.makeText(getApplicationContext(),"0",Toast.LENGTH_SHORT).show();
                     break;
-            }}
-        else Toast.makeText(getApplicationContext(),"ho",Toast.LENGTH_SHORT).show(); //Da eliminare Test
+            }
+        }
     }
+
 
 
 

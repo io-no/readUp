@@ -46,7 +46,8 @@ public class WriteUtilities {
 
 
     /*
-     * Permette la creazione di un record NDEF contenente un Uri
+     * Permette la creazione di un record NDEF contenente un
+     * semplice testo.
      */
 
     public NdefMessage createTextMessage(String content) {
