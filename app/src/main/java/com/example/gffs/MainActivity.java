@@ -64,10 +64,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment=new WriteFragment();
                 TextMessage.setText(R.string.title_dashboard);
                 break;
-            case(R.id.navigation_notifications):
-                fragment=new LastFragment();
-                TextMessage.setText(R.string.title_notifications);
-                break;
         }
         return loadFragments(fragment);
     }
@@ -146,6 +142,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Snackbar.make(findViewById(R.id.fragment_container) , "Written!",Snackbar.LENGTH_SHORT)
                     .setAnchorView(navView).show();
             }
+        else if(requestCode == 1 && resultCode == Write_Activity.RESULT_CANCELED){
+            Toast.makeText(getApplicationContext(),"Ops! Data Dimension Excedeed",Toast.LENGTH_SHORT).show();
+        } else if(requestCode == 1 && resultCode == Write_Activity.RESULT_FIRST_USER){
+            Toast.makeText(getApplicationContext(),"Ops! Something Goes Wrong",Toast.LENGTH_SHORT).show();
+        }
         }
 
     /*

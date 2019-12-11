@@ -5,32 +5,40 @@ import android.nfc.NdefRecord;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
 public class WriteUtilities {
 
-    public void writeTag(Tag tag, NdefMessage message) {
+    public int writeTag(Tag tag, NdefMessage message) {
         if (tag != null) {
             try {
                 Ndef ndefTag = Ndef.get(tag);
-                if (ndefTag == null) {
-                    NdefFormatable nForm = NdefFormatable.get(tag);
-                    if (nForm != null) {
-                        nForm.connect();
-                        nForm.format(message);
-                        nForm.close();
+                if (ndefTag.getMaxSize()>=message.getByteArrayLength()) {
+                    if (ndefTag == null) {
+                        NdefFormatable nForm = NdefFormatable.get(tag);
+                        if (nForm != null) {
+                            nForm.connect();
+                            nForm.format(message);
+                            nForm.close();
+                            return 0;
+                        }
+                    } else {
+                        ndefTag.connect();
+                        ndefTag.writeNdefMessage(message);
+                        ndefTag.close();
+                        return 0;
                     }
-                } else {
-                    ndefTag.connect();
-                    ndefTag.writeNdefMessage(message);
-                    ndefTag.close();
                 }
+               else return 1;
             } catch (Exception e) {
                 e.printStackTrace();
+                return 2;
             }
         }
+        return 2;
     }
 
 

@@ -2,6 +2,5 @@
     <string name="app_name">readUp</string>
     <string name="title_home">Read</string>
     <string name="title_dashboard">Write</string>
-    <string name="title_notifications">Last</string>
     <string name="title_activity_web_view_">WebView_Activity</string>
 </resources>

@@ -19,6 +19,7 @@ public class Write_Activity extends AppCompatActivity {
     private String data;
     private int checked;
     private WriteUtilities writeUt;
+    private int result;
 
 
 
@@ -88,8 +89,15 @@ public class Write_Activity extends AppCompatActivity {
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            writeUt.writeTag(tag, messaggio);
+            result = writeUt.writeTag(tag, messaggio);
+        if (result == 0) {
             setResult(Activity.RESULT_OK);
+            finish();
+        }else if (result == 1){
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+        }else
+            setResult(Activity.RESULT_FIRST_USER);
             finish();
         }
 
