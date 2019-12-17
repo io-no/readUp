@@ -5,18 +5,14 @@ import android.nfc.NdefRecord;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
-import android.widget.Toast;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
 public class WriteUtilities {
-
     public int writeTag(Tag tag, NdefMessage message) {
         if (tag != null) {
             try {
                 Ndef ndefTag = Ndef.get(tag);
-                if (ndefTag.getMaxSize()>=message.getByteArrayLength()) {
                     if (ndefTag == null) {
                         NdefFormatable nForm = NdefFormatable.get(tag);
                         if (nForm != null) {
@@ -25,13 +21,12 @@ public class WriteUtilities {
                             nForm.close();
                             return 0;
                         }
-                    } else {
+                    } else if (ndefTag.getMaxSize()>=message.getByteArrayLength()) {
                         ndefTag.connect();
                         ndefTag.writeNdefMessage(message);
                         ndefTag.close();
                         return 0;
                     }
-                }
                else return 1;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -42,21 +37,12 @@ public class WriteUtilities {
     }
 
 
-    /*
-     * Permette la creazione di un record NDEF contenente un Uri
-     */
-
     public NdefMessage createUriMessage(String content, String type) {
         NdefRecord record = NdefRecord.createUri(type + content);
         NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
         return msg;
     }
 
-
-    /*
-     * Permette la creazione di un record NDEF contenente un
-     * semplice testo.
-     */
 
     public NdefMessage createTextMessage(String content) {
         try {

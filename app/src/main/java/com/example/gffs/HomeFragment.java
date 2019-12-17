@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import static com.example.gffs.ReadUtility.foregroundDispatch;
 import static com.example.gffs.ReadUtility.stopForegroundDispatch;
 
-
 public class HomeFragment extends Fragment {
     private NFCManager nfcManager;
     private NfcAdapter nfcAdpt;
@@ -30,20 +29,12 @@ public class HomeFragment extends Fragment {
     }
 
 
-    /*
-     * Ad ogni ripresa dell' esecuzione del fragment, si verifica
-     * la presenza e l'attivazione dell'NFC, viene inizializzato
-     * l'intent filter e abilitato il dispatch (dettagli nella
-     * classe relativa)
-    */
-
     @Override
     public void onResume(){
         super.onResume();
         try {
             nfcManager.verifyNFC();
             Intent nfcIntent = new Intent(this.getActivity(), getClass());
-            //Non deve essere lanciata se già in esecuzione
             nfcIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pendingIntent =
                     PendingIntent.getActivity(this.getContext(), 0, nfcIntent, 0);
@@ -64,12 +55,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    /*
-     * Ad ogni interruzione dell' esecuzione del fragment,
-     * viene disabilitato il dispatch (dettagli nella classe
-     * relativa).
-     */
-
     @Override
     public void onPause() {
         super.onPause();
@@ -77,9 +62,7 @@ public class HomeFragment extends Fragment {
         nfcManager.disableDispatch();
         stopForegroundDispatch(this.getActivity(),nfcAdpt);
     }
-
-
-    }
+}
 
 
 

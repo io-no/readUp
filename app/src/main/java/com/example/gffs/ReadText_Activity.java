@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
 public class ReadText_Activity extends AppCompatActivity {
@@ -15,17 +14,6 @@ public class ReadText_Activity extends AppCompatActivity {
     private Bundle bundle;
 
 
-    /*
-     * Alla creazione, estrapolo il dato testuale da caricare.
-     * Gestisco le due possibili cause dell'avvio di questa
-     * activity:
-     * 1. Se lanciata dalla MainActivity, il dato inserito
-     *    all'interno dell'intent avrà chiave "tagTextRead".
-     * 2. Se lanciata dal sistema mentre il fragment principale
-     *    non è in  foreground, mi servo dei metodi implementati
-     *    nella classe ReadUtility  e gestisco la possibilità in
-     *    cui sia restituito un messaggio di errore.
-     */
 
     @Override
     @TargetApi(26)
@@ -46,6 +34,4 @@ public class ReadText_Activity extends AppCompatActivity {
             showHere.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
         }
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.example.gffs;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -34,13 +33,6 @@ public class Write_Activity extends AppCompatActivity {
     }
 
 
-    /*
-     * Ad ogni ripresa dell'esecuzione, verifico la presenza e
-     * l'abilitazione dell'Nfc e inizializzo l'intent filter
-     * specificando che non dovrà essere rilanciata se già
-     * in esecuzione attraverso il flag "FLAG_ACTIVITY_SINGLE_TOP".
-     */
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -69,21 +61,12 @@ public class Write_Activity extends AppCompatActivity {
     }
 
 
-    /*
-     * Ad ogni interruzione dell'esecuzione, viene disabilitato
-     * il dispatch.
-     */
     @Override
     protected void onPause() {
         super.onPause();
         nfcmng.disableDispatch();
     }
 
-
-    /*
-     * Gestisco l'arrivo di un nuovo intent richiamando il metodo
-     * per la scrittura del tag della classe WriteUtilities.
-     */
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -99,17 +82,8 @@ public class Write_Activity extends AppCompatActivity {
         }else
             setResult(Activity.RESULT_FIRST_USER);
             finish();
-        }
+    }
 
-
-    /*
-     * Gestico la creazione del messaggio che possa poi essere
-     * effettivamente scritto all'interno di un tag Nfc.
-     * In questo caso, il messaggio può essere un semplice
-     * testo oppure un Uri. In fase di progetto è stato previsto
-     * l'utlizzo di soli link "https" (sia per la scrittura che
-     * per la lettura dei tag).
-     */
 
     public void onWrite() {
         if (data.isEmpty()) {
@@ -126,16 +100,4 @@ public class Write_Activity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

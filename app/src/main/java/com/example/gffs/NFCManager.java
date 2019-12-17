@@ -9,15 +9,9 @@ public class NFCManager {
 
 
     public NFCManager(Activity activity) {
-
         this.activity = activity;
     }
 
-
-    /*
-     * Permette la verifica della presenza e/o della
-     * corretta abiliazione dell'Nfc sul dispositivo.
-     */
 
     public void verifyNFC() throws NFCNotSupported, NFCNotEnabled {
 
@@ -29,12 +23,8 @@ public class NFCManager {
     }
 
 
-    /*
-     * Se lanciato, disabilita il dispatch.
-     */
     public void disableDispatch(){
         if(nfcAdpt != null)
             nfcAdpt.disableForegroundDispatch(activity);
     }
-
 }

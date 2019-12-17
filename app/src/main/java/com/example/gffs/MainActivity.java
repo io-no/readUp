@@ -28,13 +28,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-    /*
-     *  Ad ogni creazione vengono inizializzate ed associate una serie
-     *  di variabili alle rispettive componenti grafiche e funzionali.
-     *  Di default viene avviato il fragment principale.
-     * todo icone
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +38,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         loadFragments(new HomeFragment());
     }
 
-
-    /*
-     * Gestisco il passaggio da un fragment ad un altro attraverso
-     * la selezione di un elemento del botton navigation.
-     */
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -69,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
-    /*
-     * Carico il fragment passato come argomento
-     */
-
     private boolean loadFragments (Fragment fragment){
         if (fragment != null){
             getSupportFragmentManager()
@@ -84,15 +68,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-
-    /*
-     * Metodo on click per la clickable TextView di selezione
-     * del data type. Sono offerte due scelte: link web o
-     * semplice testo. La posssiblità di scelta avviene per
-     * mezzo di un AlertDialog. Quando viene effettuata la
-     * scelta il bottone che avvia la scrittura effettiva
-     * del tag viene abilitato.
-     */
 
     public void Select(View v) {
         androidx.appcompat.app.AlertDialog.Builder buildino = new AlertDialog.Builder(MainActivity.this);
@@ -113,13 +88,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
-    /*
-     * Implemento il metodo onClick relativo al pulsante
-     * di scrittura nel fragment Write. Viene avviata
-     * l'activity di scrittura passando il testo scritto
-     * dall'utente e l'info sul data type selezionato.
-     */
-
     public void writenow (View w){
         testo = findViewById(R.id.text);
         Intent i = new Intent(w.getContext(), Write_Activity.class);
@@ -129,11 +97,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         startActivityForResult(i,1);
     }
 
-
-    /*
-     * Se la scrittura è avvenuta con successo, mostro una
-     * notifica attraverso una snackbar.
-     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -147,31 +110,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } else if(requestCode == 1 && resultCode == Write_Activity.RESULT_FIRST_USER){
             Toast.makeText(getApplicationContext(),"Ops! Something Goes Wrong",Toast.LENGTH_SHORT).show();
         }
-        }
+    }
 
-    /*
-     * Gestisco l'arrivo di un nuovo intent richiamando
-     * la classe che gestisce la lettura del tag. In base
-     * all'informazione ottenuta da quella classe sul tipo
-     * del tag, decido se avviare l'activity di visualizzazione
-     * testi oppure la WebView.
-     */
 
     @Override
-    protected void onNewIntent(Intent intent){
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        bundle= new ReadUtility().newRead(intent);
-        if(bundle!=null){
-            if(bundle.getString("Uri")!=null){
-                Intent i = new Intent(this,WebView_Activity.class);
-                i.putExtra("tagUriRead",bundle.getString("Uri"));
+        bundle = new ReadUtility().newRead(intent);
+        if (bundle != null) {
+            if (bundle.getString("Uri") != null) {
+                Intent i = new Intent(this, WebView_Activity.class);
+                i.putExtra("tagUriRead", bundle.getString("Uri"));
                 startActivity(i);
-            }else if(bundle.getString("Text")!=null) {
+            } else if (bundle.getString("Text") != null) {
                 Intent i = new Intent(this, ReadText_Activity.class);
                 i.putExtra("tagTextRead", bundle.getString("Text"));
                 startActivity(i);
             } else {
-                Toast.makeText(getApplicationContext(),bundle.getString("err"),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), bundle.getString("err"), Toast.LENGTH_SHORT).show();
             }
         }
     }

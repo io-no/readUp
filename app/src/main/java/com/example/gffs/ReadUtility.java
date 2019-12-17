@@ -17,18 +17,10 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-
-
 public class ReadUtility  {
     private Bundle bundle;
 
 
-    /*
-     * Verifico che l'azione specificata nell'intent passato
-     * come argomento sia coerente con ACTION_NDEF_DISCOVERED
-     * così come specificato nel manifest e nel foreground
-     * dispatch del fragment principale.
-     */
 
     public Bundle newRead(Intent intent) {
         bundle = new Bundle();
@@ -41,12 +33,6 @@ public class ReadUtility  {
         return bundle;
     }
 
-
-    /*
-     * Inizio la lettura. Verifico che l'NDEF record ottenuto dal tag
-     * sia di tipo TNF_WELL_KNOWN e distinguo il caso in cui contenga
-     * un testo semplice oppure un Uri.
-     */
 
     protected Bundle startRead(Tag... params) {
         Tag tag = params[0];
@@ -81,15 +67,6 @@ public class ReadUtility  {
     }
 
 
-    /*
-     * Lettura del testo contenuto nel tag se di tipo "SimpleText".
-     * Per iniziare, ottengo informazioni sulla codifica del testo (che
-     * può essere di tipo UTF-8 oppure UTF-16) e sul codice identificativo
-     * della lingua. Estrapolati questi elementi, estraggo il testo
-     * scartando le informazioni contenute nell'elemento di indice 0 e
-     * negli elementi relativi al codice di lingua
-     */
-
     private String readText(NdefRecord record) throws UnsupportedEncodingException {
         byte[] loadino = record.getPayload();
         String textEncoding = ((loadino[0] & 128) == 0) ? "UTF-8" : "UTF-16";
@@ -97,15 +74,6 @@ public class ReadUtility  {
         return new String(loadino, languageCodeLength + 1, loadino.length - languageCodeLength - 1, textEncoding);
     }
 
-
-     /*
-      * Lettura del collegamento contenuto nel tag se di tipo Uri.
-      * In fase di progetto è stato previsto l'utlizzo di soli link
-      * "https" (sia per la scrittura che per la lettura dei tag).
-      * Nell'estrazione del dato vero e proprio, escludo l'indice
-      * zero in quanto contenente l' "URI Record Type Definition"
-      * +++ Info: NFC Forum "URI Record Type Definition" +++
-      */
 
     private String readUri(NdefRecord record) throws UnknownError {
         byte[] payload = record.getPayload();
@@ -116,16 +84,6 @@ public class ReadUtility  {
         return new String(fullUri, Charset.forName("UTF-8"));
     }
 
-
-    /*
-     * Implemento e gestisco l'abilitazione del dispatch.
-     * Specifico gli Intent che voglio siano gestiti in foreground.
-     * Nel caso specifico, saranno previste due tipologie di Intent
-     * entrambe associate ad  un'azione di tipo NDEF_DISCOVERED,
-     * appartententi alla categoria CATEGORY_DEFAULT e che gestiscono
-     * il tipo "text/plain" oppure lo schema "https". Coincidono
-     * esattamente con le specifiche indicate nel Manifest.
-     */
 
     public static void foregroundDispatch(Activity activity, NfcAdapter adapter) {
         final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
@@ -149,14 +107,9 @@ public class ReadUtility  {
     }
 
 
-    /*
-     * Implemento la disabilitazione del dispatch in foreground
-     */
-
     public static void stopForegroundDispatch(Activity activity, NfcAdapter adapter) {
         if(adapter!=null){
             adapter.disableForegroundDispatch(activity);
         }
     }
-
 }
