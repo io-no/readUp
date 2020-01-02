@@ -53,9 +53,11 @@ public class Write_Activity extends AppCompatActivity {
             onWrite();
         } catch (NFCNotSupported nfcnsup) {
             Toast.makeText(getApplicationContext(), "NFC Not Supported", Toast.LENGTH_SHORT).show();
+            setResult(2);
             finish();
         } catch (NFCNotEnabled nfcnEn) {
             Toast.makeText(getApplicationContext(), "NFC Not Enabled", Toast.LENGTH_SHORT).show();
+            setResult(2);
             finish();
         }
     }
@@ -88,6 +90,7 @@ public class Write_Activity extends AppCompatActivity {
     public void onWrite() {
         if (data.isEmpty()) {
             Toast.makeText(getApplicationContext(), "No Text Inserted", Toast.LENGTH_SHORT).show();
+            setResult(2);
             finish();
         } else {
             switch (checked) {
